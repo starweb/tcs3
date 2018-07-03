@@ -22,11 +22,22 @@ class tcs3_wp_options
             $titan = TitanFramework::getInstance('tcS3_network');
 
             //create the network admin page
-            $admin_panel = $titan->createContainer([ 'type' => 'network-page', 'name' => 'tcS3 Admin', 'id' => 'tcs3-admin', 'parent' => '', "icon" => "dashicons-cloud"]);
+            $admin_panel = $titan->createContainer([
+              'type' => 'network-page',
+              'name' => 'tcS3 Admin',
+              'id' => 'tcs3-admin',
+              'parent' => '',
+              "icon" => "dashicons-cloud"
+            ]);
         } else {
             $titan = TitanFramework::getInstance('tcS3');
             //create the single instance page
-            $admin_panel = $titan->createAdminPanel([ 'name' => 'tcS3 Admin', 'id' => 'tcs3-admin', 'parent' => '', "icon" => "dashicons-cloud" ]);
+            $admin_panel = $titan->createAdminPanel([
+              'name' => 'tcS3 Admin',
+              'id' => 'tcs3-admin',
+              'parent' => '',
+              "icon" => "dashicons-cloud"
+            ]);
         }
 
         foreach ($this->fields as $tab) {
@@ -53,7 +64,8 @@ class tcs3_wp_options
             [
               "name" => "&nbsp;",
               "type" => "custom",
-              "custom" => "<div><strong style=\"font-size: 1.5em;\">Leave these fields blank if you are running tcs3 on an EC2 instance and you'd like to use the instance configuration to talk to S3</strong></div>"
+              "custom" => "<div><strong style=\"font-size: 1.5em;\">Leave these fields blank if you are running tcs3 "
+                . "on an EC2 instance and you'd like to use the instance configuration to talk to S3</strong></div>"
             ],
             [
               "name" => "Use AWS IAM Keys",
@@ -62,20 +74,29 @@ class tcs3_wp_options
             [
               "name" => "&nbsp;",
               "type" => "custom",
-              "custom" => "<div><strong>We recommend you <a href='https://console.aws.amazon.com/iam/home' target='_blank'>set up IAM keys</a> specifically for tcS3 and limit the scope of the permissions. This will protect your AWS account should these keys fall into unwanted hands.</strong></div>"
+              "custom" => "<div><strong>We recommend you <a href='https://console.aws.amazon.com/iam/home' "
+                . "target='_blank'>set up IAM keys</a> specifically for tcS3 and limit the scope of the permissions. "
+                . "This will protect your AWS account should these keys fall into unwanted hands.</strong></div>"
             ],
-            //no default values for access_key and access_secret so we don't unintentionally reveal the values of env vars
+            //no default values for access_key and access_secret so we don't
+            //unintentionally reveal the values of env vars
             [
               'name' => 'Access key ID',
               'id' => 'access_key',
               'type' => 'text',
-              'desc' => 'We recommend you <a href="https://console.aws.amazon.com/iam/home" target="_blank">set up IAM keys</a> just for S3 and use its key. If your blog is every exploited, this method will prevent hackers from doing too much damage to your AWS account if they get their hands on your keys.',
+              'desc' => 'We recommend you <a href="https://console.aws.amazon.com/iam/home" target="_blank">'
+                . 'set up IAM keys</a> just for S3 and use its key. If your blog is every exploited, this method '
+                . 'will prevent hackers from doing too much damage to your AWS account if they get their hands on '
+                . 'your keys.',
             ],
             [
               'name' => 'Access secret',
               'id' => 'access_secret',
               'type' => 'text',
-              'desc' => 'We recommend you <a href="https://console.aws.amazon.com/iam/home" target="_blank">set up IAM keys</a> just for S3 and use its key. If your blog is every exploited, this method will prevent hackers from doing too much damage to your AWS account if they get their hands on your keys.',
+              'desc' => 'We recommend you <a href="https://console.aws.amazon.com/iam/home" target="_blank">'
+                . 'set up IAM keys</a> just for S3 and use its key. If your blog is every exploited, this method '
+                . 'will prevent hackers from doing too much damage to your AWS account if they get their hands on '
+                . 'your keys.',
             ],
             [
               "name" => "Or Environment Variables",
@@ -85,7 +106,9 @@ class tcs3_wp_options
               'name' => 'Access key ID environment variable',
               'id' => 'access_key_variable',
               'type' => 'text',
-              'desc' => 'For security reasons, you may prefer to store your AWS key and secret in an environment variable instead of your DB. If that is your preference enter the name of the env variable for your key.',
+              'desc' => 'For security reasons, you may prefer to store your AWS key and secret in an environment '
+                . 'variable instead of your DB. If that is your preference enter the name of the env variable for '
+                . 'your key.',
               "default" => $this->options["access_key_variable"]
 
             ],
@@ -93,7 +116,9 @@ class tcs3_wp_options
               'name' => 'Access secret environment variable',
               'id' => 'access_secret_variable',
               'type' => 'text',
-              'desc' => 'For security reasons, you may prefer to store your AWS key and secret in an environment variable instead of your DB. If that is your preference enter the name of the env variable for your secret.',
+              'desc' => 'For security reasons, you may prefer to store your AWS key and secret in an environment '
+                . 'variable instead of your DB. If that is your preference enter the name of the env variable for '
+                . 'your secret.',
               "default" => $this->options["access_secret_variable"]
             ],
             [
@@ -124,7 +149,9 @@ class tcs3_wp_options
               'name' => 'S3 URL',
               'id' => 's3_url',
               'type' => 'text',
-              'desc' => 'The URL (including http(s)://) to your S3 bucket and directory where uploads are being stored. Unless you\'re doing something special, the format is usually http://%BUCKET_NAME%.s3.amazonaws.com/%BUCKET_PATH%/uploads',
+              'desc' => 'The URL (including http(s)://) to your S3 bucket and directory where uploads are being '
+                . 'stored. Unless you\'re doing something special, the format is usually '
+                . 'http://%BUCKET_NAME%.s3.amazonaws.com/%BUCKET_PATH%/uploads',
               "default" => $this->options["s3_url"]
             ],
             [
@@ -165,7 +192,10 @@ class tcs3_wp_options
               [
                 'name' => '&nbsp;',
                 'type' => 'custom',
-                'custom' => "<div><strong style='font-size: 1.5em;'>These are advanced settings and do not need to be altered for this plugin to do its job. Only change these values if you know what you're doing!</strong></div>"
+                'custom' => "<div><strong style='font-size: 1.5em;'>"
+                  . "These are advanced settings and do not need to be altered for this plugin to do its job. "
+                  . "Only change these values if you know what you're doing!"
+                  . "</strong></div>"
               ],
               [
                 'name' => 'Local path to uploads directory parent',
@@ -178,7 +208,8 @@ class tcs3_wp_options
                 'name' => 'URL to uploads directory parent',
                 'id' => 'local_url',
                 'type' => 'text',
-                'desc' => 'What is the absolute URL to your server\'s upload directory parent (usually wp-content)? We use this to figure out how to rewrite your asset URLs.',
+                'desc' => 'What is the absolute URL to your server\'s upload directory parent (usually wp-content)? '
+                  . 'We use this to figure out how to rewrite your asset URLs.',
                 "default" => $this->options["local_url"]
               ],
               [
@@ -210,7 +241,9 @@ class tcs3_wp_options
                 'name' => 'Cache time for S3 objects	',
                 'id' => 's3_cache_time',
                 'type' => 'text',
-                'desc' => 'Sets the Cache-Control header on S3. How long (in seconds) should the cache headers be set for on S3 objects? (This will help keep your S3 bill down and improve page load for returning visitors)',
+                'desc' => 'Sets the Cache-Control header on S3. How long (in seconds) should the cache headers be '
+                  . 'set for on S3 objects? (This will help keep your S3 bill down and improve page load for '
+                  . 'returning visitors)',
                 "default" => $this->options["s3_cache_time"]
               ],
               [
@@ -226,13 +259,18 @@ class tcs3_wp_options
                 [
                   'name' => '&nbsp;',
                   'type' => 'custom',
-                  'custom' => sprintf("<div>%d of your %d uploads have been synced to S3</div>", $tcS3->wp_media_->s3_sync_count(), $tcS3->wp_media_->attachment_count())
+                  'custom' => sprintf(
+                      "<div>%d of your %d uploads have been synced to S3</div>",
+                      $tcS3->wp_media_->s3_sync_count(),
+                      $tcS3->wp_media_->attachment_count()
+                  )
                 ],
                 [
                   'name' => 'Mark all synced',
                   'type' => 'ajax-button',
                   'id' => 'mark-all-synced',
-                  'desc' => "If you sent your existing images to S3 before activating this plugin you can mark them all as synced here",
+                  'desc' => "If you sent your existing images to S3 before activating this plugin you can mark them "
+                    . "all as synced here",
                   "action" => "mark_all_synced",
                   "label" => "Update",
                   "class" => "button-primary"
@@ -241,7 +279,8 @@ class tcs3_wp_options
                   'name' => 'Sync all',
                   'type' => 'ajax-button',
                   'id' => 'sync-all',
-                  'desc' => "This will push all of your existing uploads to S3. This process can be resource intensive so if you have a lot of uploads we recommend you upload them a different way",
+                  'desc' => "This will push all of your existing uploads to S3. This process can be resource intensive"
+                    . " so if you have a lot of uploads we recommend you upload them a different way",
                   "action" => "sync_all",
                   "label" => "Sync",
                   "class" => "button-primary"
@@ -249,7 +288,7 @@ class tcs3_wp_options
 
               ] //end s3 sync fields
             ] //end s3 sync tab
-      ];
+        ];
     }
 
     public function pre_network_save($container, $activeTab, $options)

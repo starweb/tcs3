@@ -132,7 +132,9 @@ class tcs3_wp_media
     public function s3_sync_count()
     {
         global $wpdb;
-        $query = "SELECT count(*) as num FROM {$wpdb->posts} p JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND meta_key = 'is_on_s3' AND meta_value = '1' WHERE post_type = 'attachment'";
+        $query = "SELECT count(*) as num FROM {$wpdb->posts} p "
+            . "JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND meta_key = 'is_on_s3' AND meta_value = '1' "
+            . "WHERE post_type = 'attachment'";
         return intval($wpdb->get_var($query));
     }
 

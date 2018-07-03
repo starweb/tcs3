@@ -94,21 +94,25 @@ class TitanFrameworkNetworkPage
     {
         // Parent menu
         if (empty($this->settings['parent'])) {
-            $this->panelID = add_menu_page($this->settings['name'],
+            $this->panelID = add_menu_page(
+                $this->settings['name'],
                 $this->settings['title'],
                 $this->settings['capability'],
                 $this->settings['id'],
                 array( $this, 'createAdminPage' ),
                 $this->settings['icon'],
-            $this->settings['position']);
+                $this->settings['position']
+            );
             // Sub menu
         } else {
-            $this->panelID = add_submenu_page($this->settings['parent'],
+            $this->panelID = add_submenu_page(
+                $this->settings['parent'],
                 $this->settings['name'],
                 $this->settings['title'],
                 $this->settings['capability'],
                 $this->settings['id'],
-            array( $this, 'createAdminPage' ));
+                array( $this, 'createAdminPage' )
+            );
         }
 
         add_action('load-' . $this->panelID, array( $this, 'saveOptions' ));
@@ -125,7 +129,11 @@ class TitanFrameworkNetworkPage
 
     public function addTitanCreditText()
     {
-        return __("<em>Options Page Created with <a href='http://titanframework.net?utm_source=admin&utm_medium=admin footer'>Titan Framework</a></em>", TF_I18NDOMAIN);
+        return __(
+            "<em>Options Page Created with "
+            . "<a href='http://titanframework.net?utm_source=admin&utm_medium=admin footer'>Titan Framework</a></em>",
+            TF_I18NDOMAIN
+        );
     }
 
 
@@ -165,7 +173,6 @@ class TitanFrameworkNetworkPage
          */
 
         if ($_POST['action'] == 'save') {
-
             // we are in a tab
             if (! empty($activeTab)) {
                 foreach ($activeTab->options as $option) {
@@ -211,7 +218,6 @@ class TitanFrameworkNetworkPage
             * Reset
             */
         } elseif ($_POST['action'] == 'reset') {
-
             // we are in a tab
             if (! empty($activeTab)) {
                 foreach ($activeTab->options as $option) {
@@ -329,62 +335,67 @@ class TitanFrameworkNetworkPage
     {
         do_action('tf_admin_page_before');
         do_action('tf_admin_page_before_' . $this->getOptionNamespace()); ?>
-		<div class="wrap">
-		<h2><?php echo $this->settings['title'] ?></h2>
-		<?php
+        <div class="wrap">
+        <h2><?php echo $this->settings['title'] ?></h2>
+        <?php
         if (! empty($this->settings['desc'])) {
             ?><p class='description'><?php echo $this->settings['desc'] ?></p><?php
-
         } ?>
 
-		<div class='titan-framework-panel-wrap'>
-		<?php
+        <div class='titan-framework-panel-wrap'>
+        <?php
 
         do_action('tf_admin_page_start');
         do_action('tf_admin_page_start_' . $this->getOptionNamespace());
 
         if (count($this->tabs)) :
             ?>
-			<h2 class="nav-tab-wrapper">
-			<?php
+            <h2 class="nav-tab-wrapper">
+            <?php
 
             do_action('tf_admin_page_tab_start');
-        do_action('tf_admin_page_tab_start_' . $this->getOptionNamespace());
+            do_action('tf_admin_page_tab_start_' . $this->getOptionNamespace());
 
-        foreach ($this->tabs as $tab) {
-            $tab->displayTab();
-        }
+            foreach ($this->tabs as $tab) {
+                $tab->displayTab();
+            }
 
-        do_action('tf_admin_page_tab_end');
-        do_action('tf_admin_page_tab_end_' . $this->getOptionNamespace()); ?>
-			</h2>
-			<?php
+            do_action('tf_admin_page_tab_end');
+            do_action('tf_admin_page_tab_end_' . $this->getOptionNamespace()); ?>
+            </h2>
+            <?php
         endif; ?>
-		<div class='options-container'>
-		<?php
+        <div class='options-container'>
+        <?php
 
         // Display notification if we did something
         if (! empty($_GET['message'])) {
             if ($_GET['message'] == 'saved') {
-                echo TitanFrameworkAdminNotification::formNotification(__('Settings saved.', TF_I18NDOMAIN), esc_html($_GET['message']));
+                echo TitanFrameworkAdminNotification::formNotification(
+                    __('Settings saved.', TF_I18NDOMAIN),
+                    esc_html($_GET['message'])
+                );
             } elseif ($_GET['message'] == 'reset') {
-                echo TitanFrameworkAdminNotification::formNotification(__('Settings reset to default.', TF_I18NDOMAIN), esc_html($_GET['message']));
+                echo TitanFrameworkAdminNotification::formNotification(
+                    __('Settings reset to default.', TF_I18NDOMAIN),
+                    esc_html($_GET['message'])
+                );
             }
         }
 
         if ($this->settings['use_form']) :
             ?>
-			<form method='post'>
-			<?php
+            <form method='post'>
+            <?php
         endif;
 
         if ($this->settings['use_form']) {
             // security
             wp_nonce_field($this->settings['id'], TF . '_nonce');
         } ?>
-		<table class='form-table'>
-			<tbody>
-		<?php
+        <table class='form-table'>
+            <tbody>
+        <?php
 
         do_action('tf_admin_page_table_start');
         do_action('tf_admin_page_table_start_' . $this->getOptionNamespace());
@@ -393,7 +404,6 @@ class TitanFrameworkNetworkPage
         if (! empty($activeTab)) {
             if (! empty($activeTab->settings['desc'])) {
                 ?><p class='description'><?php echo $activeTab->settings['desc'] ?></p><?php
-
             }
 
             $activeTab->displayOptions();
@@ -405,37 +415,37 @@ class TitanFrameworkNetworkPage
 
         do_action('tf_admin_page_table_end');
         do_action('tf_admin_page_table_end_' . $this->getOptionNamespace()); ?>
-			</tbody>
-		</table>
-		<?php
+            </tbody>
+        </table>
+        <?php
 
         if ($this->settings['use_form']) :
             ?>
-			</form>
-			<?php
+            </form>
+            <?php
         endif;
 
         // Reset form. We use JS to trigger a reset from other buttons within the main form
         // This is used by class-option-save.php
         if ($this->settings['use_form']) :
             ?>
-			<form method='post' id='tf-reset-form'>
-				<?php
+            <form method='post' id='tf-reset-form'>
+                <?php
                 // security
                 wp_nonce_field($this->settings['id'], TF . '_nonce'); ?>
-				<input type='hidden' name='action' value='reset'/>
-			</form>
-			<?php
+                <input type='hidden' name='action' value='reset'/>
+            </form>
+            <?php
         endif;
 
         do_action('tf_admin_page_end');
         do_action('tf_admin_page_end_' . $this->getOptionNamespace()); ?>
-		<div class='options-container'>
-		</div>
-		</div>
-		</div>
-		</div>
-		<?php
+        <div class='options-container'>
+        </div>
+        </div>
+        </div>
+        </div>
+        <?php
 
         do_action('tf_admin_page_after');
         do_action('tf_admin_page_after_' . $this->getOptionNamespace());
