@@ -1,4 +1,6 @@
 {
+    "name": "liljebergxyz/tcs3",
+    "description": "S3 plugin for Wordpress",
     "require": {
         "aws/aws-sdk-php": "^3.48"
     },
